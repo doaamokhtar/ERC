@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "name": "ERCJira",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "window.title": "ERCJira — expo.sd.erc.sa"
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.powershell"
+    ]
+  }
+}

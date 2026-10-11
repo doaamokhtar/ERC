@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------------------
+# Secrets — never commit
+# ---------------------------------------------------------------------------
+*.token
+.env
+*.pat
+credentials*
+
+# ---------------------------------------------------------------------------
+# Internal Jira DATA — deliberately excluded
+#
+# Bulk extracts of ERC's Jira: issue keys, request summaries, requester names.
+# The code and the documentation belong in a repo; the company's issue data
+# does not, and pushing it to a git host moves it outside Jira's access control.
+#
+# All of it can be regenerated with the scripts in tools/.
+# ---------------------------------------------------------------------------
+_raw/
+state/
+reports/*.csv
+reports/*.json
+reports/*.xlsx
+
+# ---------------------------------------------------------------------------
+# Runtime output
+# ---------------------------------------------------------------------------
+*.log
+
+# Office / LibreOffice lock files — written while a document is open
+.~lock.*#
+~$*

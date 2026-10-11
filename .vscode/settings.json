@@ -1,0 +1,18 @@
+{
+  "files.encoding": "utf8",
+  "files.eol": "\r\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "[powershell]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
+  "powershell.codeFormatting.preset": "OTBS",
+  "search.exclude": {
+    "**/_raw": true,
+    "**/state": true
+  }
+}
