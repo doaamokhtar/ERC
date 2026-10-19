@@ -29,3 +29,9 @@ reports/*.xlsx
 # Office / LibreOffice lock files — written while a document is open
 .~lock.*#
 ~$*
+
+# ---------------------------------------------------------------------------
+# Build dependencies - reinstalled by tools/build-docs.ps1
+# ---------------------------------------------------------------------------
+node_modules/
+__pycache__/

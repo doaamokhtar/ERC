@@ -18,7 +18,9 @@ project keys, different field ids, different token.
 |---|---|
 | `tools/` | the scripts (PowerShell + Jira REST) |
 | `tools/JiraClient.ps1` | the one place that holds the URL, the token and the REST call |
-| `docs/` | process documentation, runbooks |
+| `tools/build-docs.ps1` | rebuilds the WB documents in `docs/` |
+| `docs/` | process documentation, runbooks, the WB user guide and templates |
+| `docs/user-guide-build/` | the scripts and images the WB documents are built from |
 | `reports/` | generated output, design notes, browser snippets |
 
 ## Getting started
@@ -35,6 +37,32 @@ project keys, different field ids, different token.
 `test-connection.ps1` prints which account the token belongs to and lists the service desk
 projects that account can see. If it fails, read [SETUP.md](SETUP.md) — it is almost always
 a token from a different account than the email, or one set in a window that was already open.
+
+## Building the documents
+
+The WB user guide, SLA template and requirements workbook in `docs/` are generated. To change
+one, edit its script in `docs/user-guide-build/` and rebuild — don't edit the .docx/.xlsx by hand,
+the next build overwrites it.
+
+Needs [Node.js](https://nodejs.org) 18+ and [Python](https://www.python.org) 3.10+ on PATH
+(and Microsoft Word for `-Pdf`). The first run installs the rest (npm `docx`, Python `openpyxl`
+and `Pillow`).
+
+```powershell
+.\tools\build-docs.ps1          # .docx + .xlsx
+.\tools\build-docs.ps1 -Pdf     # also the PDFs, with the guide's contents page filled in
+```
+
+| Output in `docs/` | Built by |
+|---|---|
+| `WB-User-Guide-v1.1-DRAFT.docx` | `build.js` |
+| `WB-SLA-Requirements-Template-v1.1.docx` | `sla-template.js` |
+| `WB-Requirements-and-SLA-Template-v1.3.xlsx` | `requirements-template.py` |
+
+`emails.js` holds the HTML of the WB automation emails, in the same Expo 2030 Riyadh theme.
+
+If PowerShell refuses to run the script ("running scripts is disabled"), allow local scripts once:
+`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
 
 ## Writing a new script
 

@@ -1,0 +1,8 @@
+{
+  "name": "wb-docs-build",
+  "private": true,
+  "description": "Builds the WB user guide and SLA template (Word). Run tools/build-docs.ps1 rather than this directly.",
+  "dependencies": {
+    "docx": "9.5.1"
+  }
+}
