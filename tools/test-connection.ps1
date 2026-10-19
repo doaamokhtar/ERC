@@ -25,7 +25,8 @@ $hostName = ([Uri]$JiraUrl).Host
 $reach = Test-NetConnection -ComputerName $hostName -Port 443 -InformationLevel Quiet -WarningAction SilentlyContinue
 if (-not $reach) {
   Write-Host "UNREACHABLE: $hostName`:443" -ForegroundColor Red
-  Write-Host "This is an internal server - connect to the ERC network or the VPN and try again." -ForegroundColor Yellow
+  Write-Host "Jira Cloud is on the public internet, so this is the connection or a proxy/firewall," -ForegroundColor Yellow
+  Write-Host "not Jira. Check you are online and try again." -ForegroundColor Yellow
   exit 1
 }
 Write-Host "Network: $hostName`:443 reachable" -ForegroundColor Green
@@ -33,14 +34,16 @@ Write-Host "Network: $hostName`:443 reachable" -ForegroundColor Green
 # ---- is there a token at all? ----------------------------------------------------------------
 # Separated from the call below so "you never set it" and "Jira rejected it" do not print the
 # same advice. They need opposite fixes.
-try { [void](Get-JiraToken) }
+try { [void](Get-JiraEmail); [void](Get-JiraToken) }
 catch {
-  Write-Host "NO TOKEN" -ForegroundColor Red
+  Write-Host "NOT SET UP" -ForegroundColor Red
   Write-Host ("  " + $_.Exception.Message)
-  Write-Host "`n  [Environment]::SetEnvironmentVariable(`"ERC_JIRA_TOKEN`",`"<token>`",`"User`")" -ForegroundColor Yellow
+  Write-Host "`n  [Environment]::SetEnvironmentVariable(`"ERC_JIRA_EMAIL`",`"<your atlassian email>`",`"User`")" -ForegroundColor Yellow
+  Write-Host "  [Environment]::SetEnvironmentVariable(`"ERC_JIRA_TOKEN`",`"<api token>`",`"User`")" -ForegroundColor Yellow
   Write-Host "  ...then open a NEW PowerShell window. See SETUP.md." -ForegroundColor Yellow
   exit 1
 }
+Write-Host "Email  : $(Get-JiraEmail) (the account the token must belong to)"
 
 # ---- whose token is this? --------------------------------------------------------------------
 try {
@@ -49,13 +52,14 @@ try {
 catch {
   Write-Host "TOKEN REJECTED" -ForegroundColor Red
   Write-Host ("  " + $_.Exception.Message)
-  Write-Host "`nThe token is set but Jira would not accept it - usually expired, revoked, or" -ForegroundColor Yellow
-  Write-Host "created on a different Jira. Create a new one; see SETUP.md." -ForegroundColor Yellow
+  Write-Host "`nJira would not accept the email + token pair - usually a token from a different" -ForegroundColor Yellow
+  Write-Host "Atlassian account than ERC_JIRA_EMAIL, or one that has expired or been revoked." -ForegroundColor Yellow
+  Write-Host "Create a new one; see SETUP.md." -ForegroundColor Yellow
   exit 1
 }
 
-Write-Host ("Account: {0} ({1})" -f $me.displayName, $me.name) -ForegroundColor Green
-if ($me.emailAddress) { Write-Host ("Email  : {0}" -f $me.emailAddress) }
+# Cloud has no username - accountId is the id Jira records against everything the scripts do.
+Write-Host ("Account: {0} ({1})" -f $me.displayName, $me.accountId) -ForegroundColor Green
 
 # ---- what can it see? ------------------------------------------------------------------------
 Write-Host "`nService desks this account can see:"

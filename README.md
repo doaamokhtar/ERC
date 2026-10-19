@@ -1,6 +1,7 @@
 # ERCJira — tooling for the ERC Jira Service Desk
 
-Scripts and documentation for **`https://expo.sd.erc.sa/jira`** (Jira Service Management).
+Scripts and documentation for ERC's **Jira Cloud** service desk: `https://expo.sd.erc.sa`, a custom
+domain for `https://erc-sd.atlassian.net` (Jira Service Management).
 
 > ⚠️ **Private.** Internal URLs, custom field ids, group names and staff names end up in here.
 > Bulk Jira data (issue extracts, CSV reports) is deliberately excluded — see `.gitignore`.
@@ -23,8 +24,9 @@ project keys, different field ids, different token.
 ## Getting started
 
 ```powershell
-# 1. store the token once (Windows User scope, survives reboots)
-[Environment]::SetEnvironmentVariable("ERC_JIRA_TOKEN","<personal access token>","User")
+# 1. store your email + API token once (Windows User scope, survives reboots)
+[Environment]::SetEnvironmentVariable("ERC_JIRA_EMAIL","<your atlassian email>","User")
+[Environment]::SetEnvironmentVariable("ERC_JIRA_TOKEN","<api token>","User")
 
 # 2. open a NEW PowerShell window, then check it reaches the server
 .\tools\test-connection.ps1
@@ -32,12 +34,12 @@ project keys, different field ids, different token.
 
 `test-connection.ps1` prints which account the token belongs to and lists the service desk
 projects that account can see. If it fails, read [SETUP.md](SETUP.md) — it is almost always
-the VPN or a token typed into the wrong window.
+a token from a different account than the email, or one set in a window that was already open.
 
 ## Writing a new script
 
-Dot-source the client and call `Invoke-JiraApi`. It handles the base URL, the context path
-(`/jira`), the token, retries and paging, so a script only says what it wants:
+Dot-source the client and call `Invoke-JiraApi`. It handles the base URL, the email + token,
+retries and paging, so a script only says what it wants:
 
 ```powershell
 . "$PSScriptRoot\JiraClient.ps1"

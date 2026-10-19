@@ -1,0 +1,6 @@
+{
+  "name": "wb-validator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WB workflow validator: Investigating Function required when Report Category is Other."
+}

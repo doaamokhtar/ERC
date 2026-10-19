@@ -10,7 +10,7 @@
     . "$PSScriptRoot\JiraClient.ps1"
 
 .WHAT IT GIVES YOU
-  $JiraUrl                 https://expo.sd.erc.sa/jira   (override with $env:ERC_JIRA_URL)
+  $JiraUrl                 https://erc-sd.atlassian.net   (override with $env:ERC_JIRA_URL)
   Invoke-JiraApi           one REST call, any method, any api
   Get-JiraSearchResults    a JQL search, every page, as issue objects
   Get-JiraAccount          who the token belongs to
@@ -27,23 +27,31 @@ $ErrorActionPreference = "Stop"
 # network problem rather than a handshake one.
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-# The context path is part of the URL here - this Jira is served from /jira, not from the root
-# of the host - so every REST path hangs off .../jira/rest/..., not .../rest/...
+# This is Jira Cloud. expo.sd.erc.sa is a custom domain in front of erc-sd.atlassian.net - the
+# browser shows it, but serverInfo reports erc-sd.atlassian.net as the baseUrl, and that is the
+# address the REST api is documented against. The /jira in the browser's address bar is a
+# web-app route, not a context path: .../jira/rest/... answers with the app's HTML, not JSON.
 $script:JiraUrl = $env:ERC_JIRA_URL
-if (-not $script:JiraUrl) { $script:JiraUrl = "https://expo.sd.erc.sa/jira" }
+if (-not $script:JiraUrl) { $script:JiraUrl = "https://erc-sd.atlassian.net" }
 $script:JiraUrl = $script:JiraUrl.TrimEnd("/")
 $JiraUrl = $script:JiraUrl
 
-function Get-JiraToken {
+function Get-JiraSetting([string] $Name) {
   <# Environment variable first, so a CI runner can inject a secret; then the Windows User
      scope, which is where a laptop keeps it. #>
-  $token = $env:ERC_JIRA_TOKEN
-  if (-not $token) { $token = [Environment]::GetEnvironmentVariable("ERC_JIRA_TOKEN", "User") }
-  if (-not $token) {
-    throw "ERC_JIRA_TOKEN is not set. See SETUP.md. (If you just set it, open a new PowerShell window.)"
+  $value = [Environment]::GetEnvironmentVariable($Name, "Process")
+  if (-not $value) { $value = [Environment]::GetEnvironmentVariable($Name, "User") }
+  if (-not $value) {
+    throw "$Name is not set. See SETUP.md. (If you just set it, open a new PowerShell window.)"
   }
-  return $token
+  return $value
 }
+
+function Get-JiraToken { return Get-JiraSetting "ERC_JIRA_TOKEN" }
+
+# Cloud has no personal access tokens. An API token only works paired with the email of the
+# Atlassian account that created it - the token alone is rejected exactly like a wrong one.
+function Get-JiraEmail { return Get-JiraSetting "ERC_JIRA_EMAIL" }
 
 function Invoke-JiraApi {
   <#
@@ -85,7 +93,8 @@ function Invoke-JiraApi {
   }
 
   $headers = @{
-    Authorization = "Bearer " + (Get-JiraToken)
+    Authorization = "Basic " + [Convert]::ToBase64String(
+      [Text.Encoding]::UTF8.GetBytes((Get-JiraEmail) + ":" + (Get-JiraToken)))
     # Jira rejects a REST write that looks like it came from a browser form unless this says
     # otherwise. Harmless on reads.
     "X-Atlassian-Token" = "no-check"
@@ -160,22 +169,24 @@ function Get-JiraSearchResults {
     [int] $PageSize = 100
   )
 
-  $startAt = 0
+  # search/jql, not search: Cloud removed the startAt/total search. This one hands back a
+  # nextPageToken instead and never says how many issues there are in all.
+  $token = $null
   $issues = New-Object Collections.ArrayList
   while ($true) {
     $body = @{
       jql        = $Jql
       fields     = $Fields
-      startAt    = $startAt
       maxResults = $PageSize
     }
-    if ($Expand) { $body["expand"] = $Expand }
+    if ($token) { $body["nextPageToken"] = $token }
+    if ($Expand) { $body["expand"] = ($Expand -join ",") }
 
-    $page = Invoke-JiraApi -Path "search" -Method POST -Body $body
+    $page = Invoke-JiraApi -Path "search/jql" -Method POST -Body $body
     if ($page.issues) { [void]$issues.AddRange($page.issues) }
 
-    $startAt += $PageSize
-    if ($startAt -ge $page.total -or -not $page.issues -or $page.issues.Count -eq 0) { break }
+    $token = $page.nextPageToken
+    if ($page.isLast -or -not $token) { break }
   }
   return $issues.ToArray()
 }

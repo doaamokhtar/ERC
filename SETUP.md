@@ -1,35 +1,38 @@
 # Setup
 
-## 1. Network
+## 1. Which Jira this is
 
-The server is internal: `https://expo.sd.erc.sa/jira`. It is only reachable on the ERC
-network or over the VPN. A failure here looks like a hang, then a timeout — not a login error.
+**Jira Cloud.** The browser shows `https://expo.sd.erc.sa/jira/...`, but that is a custom domain
+in front of `https://erc-sd.atlassian.net`. The scripts talk to the `atlassian.net` address.
+The `/jira` in the address bar is a page route in the web app. It is not part of the API path.
+
+It is on the public internet, so you do not need the VPN.
+
+## 2. An API token
+
+Cloud has no personal access tokens. It uses an **API token paired with your Atlassian email**,
+and you have to send both together. A token sent with the wrong email is rejected the same way
+as a wrong token.
+
+1. Sign in at `https://id.atlassian.com/manage-profile/security/api-tokens`
+   as the same account you use on ERC's Jira
+2. *Create API token*. Give it a name that says where it runs (e.g. `ERCJira scripts — laptop`)
+   and the shortest expiry you can live with
+3. Copy it. Atlassian only shows it once
+
+Store both values in the Windows **User** scope, so they survive reboots and stay out of files:
 
 ```powershell
-Test-NetConnection expo.sd.erc.sa -Port 443
+[Environment]::SetEnvironmentVariable("ERC_JIRA_EMAIL","<your atlassian email>","User")
+[Environment]::SetEnvironmentVariable("ERC_JIRA_TOKEN","<paste the token here>","User")
 ```
 
-## 2. A personal access token
+Then **open a new PowerShell window**. A PowerShell window that was already open does not see a
+variable set this way. This is the most common reason `test-connection.ps1` says nothing is set
+right after you set it.
 
-A token can only be created by the account it belongs to — nobody can make one for you.
-
-1. Sign in to `https://expo.sd.erc.sa/jira`
-2. *Profile → Personal Access Tokens → Create token*
-3. Give it a name that says where it runs (e.g. `ERCJira scripts — laptop`) and the shortest
-   expiry you can live with
-
-Store it in the Windows **User** scope so it survives reboots and is not sitting in a file:
-
-```powershell
-[Environment]::SetEnvironmentVariable("ERC_JIRA_TOKEN","<paste it here>","User")
-```
-
-Then **open a new PowerShell window**. A variable set this way does not reach a shell that
-was already running, which is the single most common reason `test-connection.ps1` says the
-token is not set right after you set it.
-
-The scripts also accept `$env:ERC_JIRA_TOKEN` for a CI runner, where the token comes from a
-secret rather than from the registry.
+On a CI runner, the scripts also read `$env:ERC_JIRA_EMAIL` / `$env:ERC_JIRA_TOKEN`, where the
+values come from secrets instead of the registry.
 
 ## 3. Check it
 
@@ -37,16 +40,15 @@ secret rather than from the registry.
 .\tools\test-connection.ps1
 ```
 
-Expected: your display name, your account name, and the list of service desk projects you can
+You should see your display name, your accountId, and the list of service desk projects you can
 see. If the list is empty, the token works but the account has no service desk access yet.
 
 ## Which account should the scripts run as?
 
-Whatever the token belongs to, since that is the name Jira records against every comment,
-transition and field change the scripts make. Running automation under a person's token
-writes that person's name into the history of work no person did, and it stops the day their
-access changes — so anything scheduled or recurring wants a service account of its own, not
-yours.
+The scripts run as whoever owns the token, so that is the name Jira records against every
+comment, transition and field change they make. If automation runs under a person's token, the
+issue history shows that person doing work no person did. It also stops working the day their
+access changes. So anything scheduled or recurring should use its own service account, not yours.
 
-`test-connection.ps1` prints the account name every run, so this stays visible rather than
-being something you have to remember to check.
+`test-connection.ps1` prints the account on every run, so you can always see which one it is
+without having to remember to check.

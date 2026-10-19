@@ -1,0 +1,25 @@
+WB - "Request created" customer notification (acknowledgement to the reporter)
+
+Where: WB -> Project settings -> Customer notifications -> Request created
+The message editor is rich text: it does not accept raw HTML, and the look comes from
+Templates. Type or paste the text below as normal text, then put the reference number in
+with the editor's variable dropdown - typed variables like ${request.key} are rejected.
+Only the reference number goes in: no summary, no details. The email leaves Jira's access
+control the moment it is sent.
+
+Subject (Jira appends the key to the subject itself):
+We received your report | تم استلام بلاغك
+
+Message:
+Dear reporter,
+Thank you for your report. It has been received with reference number [KEY] and will be handled confidentially by the authorized team only.
+Please keep this number for any future reference.
+
+عزيزي المُبلِّغ،
+شكرًا لك على بلاغك. تم استلامه برقم مرجعي [KEY]، وسيتم التعامل معه بسرية تامة من قِبل الفريق المختص فقط.
+يرجى الاحتفاظ بهذا الرقم للرجوع إليه مستقبلًا.
+
+This is an automated message. Please do not reply.
+هذه رسالة آلية، يرجى عدم الرد عليها.
+
+[KEY] = insert from the variable dropdown (the request/issue key), not typed.
