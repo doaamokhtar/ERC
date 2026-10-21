@@ -313,6 +313,23 @@ br.cell(row=first - 1, column=10).number_format = "dd/mm/yyyy"
 # requirements ERC has already raised; justification, priority, requester and date are left for ERC
 ANONYMITY_NOTICE = ("Please note that choosing to remain anonymous may limit our ability to clarify facts "
                     "or follow up with you during the investigation.")
+REPORTABLE_MATTERS = "\n".join([
+    "A report may concern wrongdoing that has occurred, is occurring, or is likely to occur. "
+    "Reportable matters include, without limitation:",
+    "Fraud, theft, embezzlement, misappropriation or misuse of assets, funds or information.",
+    "Bribery, kickbacks, facilitation payments, trading in influence, extortion or any other form of corruption.",
+    "Money laundering, terrorist financing, sanctions evasion or suspicious financial activity.",
+    "Collusion, bid rigging, conflict of interest, favoritism or abuse of position in procurement, contracting, land, "
+    "permitting, licensing or recruitment decisions.",
+    "Falsification, concealment, destruction or manipulation of records, accounts, reports or evidence.",
+    "Breach of law, regulation, license conditions, contractual obligation or internal policy.",
+    "Harassment, bullying, discrimination, abuse of authority or other serious workplace misconduct.",
+    "Health, safety or environmental danger, and breaches of construction, heritage or site-protection requirements.",
+    "Information security breaches, unauthorized disclosure of confidential or personal data, and misuse of systems.",
+    "Deliberate circumvention or override of internal controls.",
+    "Retaliation against a whistleblower, witness or any person assisting a case, or any attempt to obstruct or "
+    "interfere with a case.",
+])
 raised = [
     {2: "Intake / Portal", 3: "Rename the portal to \"Speak Up\"",
      4: "Rename the portal from \"Whistleblowing Reporting Portal\" to \"Speak Up\" wherever reporters or staff see it: "
@@ -329,6 +346,21 @@ raised = [
      11: "New",
      12: "Shown as the help text of the anonymity option. Arabic text to confirm: \"يرجى العلم بأن اختيار عدم الإفصاح "
          "عن هويتك قد يحدّ من قدرتنا على استيضاح الوقائع أو المتابعة معك أثناء التحقيق.\""},
+    {2: "Intake / Portal", 3: "\"What can I report?\" guidance behind an info button",
+     4: "The portal should present a summary of reportable matters to guide reporters. It must not be static text on "
+        "the form: an info icon or button (e.g. \"What can I report?\" or an \"i\" next to the title) opens the guidance "
+        "in BR-005 as an expandable panel, popup or tooltip, and it can be collapsed again so it does not clutter the form.",
+     9: "The form shows only the button; clicking or tapping it shows the BR-005 text in full; it can be closed again; "
+        "it works on desktop and mobile.",
+     11: "New",
+     12: "Jira's portal has no native info-icon popup. Closest standard option: a \"What can I report?\" toggle on the "
+         "form that shows and hides a section holding the text. A true icon or popup needs a portal customization - "
+         "to agree with ERC."},
+    {2: "Intake / Portal", 3: "Reportable matters - guidance text",
+     4: "Text to show in the \"What can I report?\" guidance (BR-004), word for word:\n" + REPORTABLE_MATTERS,
+     9: "The guidance shows this text word for word, including all eleven items.",
+     11: "New",
+     12: "Arabic version to be provided or confirmed by ERC, as the form is bilingual."},
 ]
 for i, req in enumerate(raised):
     for col, value in req.items():
