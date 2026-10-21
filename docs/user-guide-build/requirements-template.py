@@ -340,8 +340,10 @@ raised = [
      9: "The portal, the emails and the user guide show \"Speak Up\"; \"Whistleblowing Reporting Portal\" no longer "
         "appears anywhere a reporter or staff member can see it.",
      11: "New",
-     12: "Portal name and emails are configuration only. The portal link does not change, so links already "
-         "shared keep working."},
+     12: "Sandbox, 21/10/2026: done - project, portal and help center renamed, emails and user guide (v1.2) "
+         "updated. The help center address changed with it, from /helpcenter/WhistleblowingReporting to "
+         "/helpcenter/SpeakUp: the old link no longer opens the form, so every published link (intranet, emails, "
+         "posters, QR codes) must be replaced when this goes to production. Production: not started."},
     {2: "Intake / Portal", 3: "Anonymity notice next to the anonymous option",
      4: "Next to the anonymity selection option on the reporting form, show this statement: \"" + ANONYMITY_NOTICE + "\"",
      9: "Opening the reporting form shows the statement, word for word, directly next to the anonymity option, "

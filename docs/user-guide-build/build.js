@@ -80,7 +80,7 @@ const cover = [
 ];
 
 // ---------- body ----------
-const LINK = 'https://erc-sd-sandbox.atlassian.net/helpcenter/WhistleblowingReporting/portal/169/group/274/create/474?email=Anonymous%40Anonymous.com';
+const LINK = 'https://erc-sd-sandbox.atlassian.net/helpcenter/SpeakUp/portal/169/group/274/create/474?email=Anonymous%40Anonymous.com';
 const body = [
   new Paragraph({ children: [t('Contents', { bold: true, size: 32, color: DARK })], spacing: { after: 160 } }),
   new TableOfContents('Contents', { hyperlink: true, headingStyleRange: '1-1' }),
