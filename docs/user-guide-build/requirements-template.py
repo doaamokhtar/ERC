@@ -432,7 +432,9 @@ impact = [
     ("Reports about Internal Audit",
      "-",
      "The two questions do not cover a report about Internal Audit itself; it would follow the normal flow to GRC.",
-     "Is that acceptable, or is a third question needed?"),
+     "Is that acceptable, or is a third question needed?",
+     "Agreed (21/10/2026): acceptable. A report about Internal Audit follows the normal workflow as built today; "
+     "no third question."),
     ("Documentation and training",
      "User guide v1.1, workflow diagram and SLA template describe one branch.",
      "Update the guide, the diagram and the SLA template; brief Internal Audit on the new branch.",
@@ -450,13 +452,15 @@ for i, h in enumerate(im_headers, start=1):
     im.column_dimensions[get_column_letter(i)].width = im_widths[i - 1]
 for n, row in enumerate(impact, start=1):
     r_ = 5 + n
-    for i, v in enumerate((n,) + row, start=1):
+    for i, v in enumerate((n,) + row[:4], start=1):
         c = im.cell(row=r_, column=i, value=v)
         c.font = F(color=INK, bold=(i == 2)); c.border = BOX; c.alignment = WRAP
         if n % 2 == 0: c.fill = BAND
-    answer = im.cell(row=r_, column=6)
-    answer.border = BOX; answer.alignment = WRAP; answer.font = F(color=INK)
-    answer.fill = FILL_ME if row[3] != "-" else EXAMPLE
+    agreed = row[4] if len(row) > 4 else None          # decisions already taken
+    answer = im.cell(row=r_, column=6, value=agreed)
+    answer.border = BOX; answer.alignment = WRAP
+    answer.font = F(color=MINT_DARK, bold=True) if agreed else F(color=INK)
+    answer.fill = BAND if agreed else (FILL_ME if row[3] != "-" else EXAMPLE)
 im.freeze_panes = "C6"
 
 # ---------------------------------------------------------------- SLA
