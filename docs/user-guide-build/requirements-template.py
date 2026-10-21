@@ -181,6 +181,7 @@ ins.cell(row=r, column=2, value="Sheets").font = F(size=12, bold=True, color=NAV
 for k, v in [("Service Catalog", "One row per service on the portal: who can request it, who approves (up to 3 levels) and which team delivers it."),
              ("Request Form Fields", "One row per field on a service's request form: label (English and Arabic), type, required or not, dropdown options."),
              ("Other Requirements", "Anything that is not a service or a field: notifications, reports, access rules, data retention."),
+             ("BR-006 Impact", "What the escalation branch (BR-006) changes in today's setup, and the decisions needed - answer in the yellow 'ERC answer' cells."),
              ("SLA", "One row per service level: what is measured, the target, and who is warned and escalated to (group + email) at each level."),
              ("Groups & Contacts", "Who belongs to each group, their email, and whether they need a Jira licence.")]:
     a = ins.cell(row=r, column=2, value=k); a.font = F(bold=True); a.border = BOX
@@ -361,10 +362,102 @@ raised = [
      9: "The guidance shows this text word for word, including all eleven items.",
      11: "New",
      12: "Arabic version to be provided or confirmed by ERC, as the form is bilingual."},
+    {2: "Routing", 3: "Escalation questions on the reporting page (new Internal Audit branch)",
+     4: "Add two questions to the reporting page. This changes the existing workflow and adds a new branch.\n"
+        "Q1: \"Is the reported case related to the Board of Directors?\"\n"
+        "- Yes: the report goes to the Internal Audit team. Flow: Reject, or Under Investigation and then Closed.\n"
+        "- No: ask Q2.\n"
+        "Q2: \"Is it related to the Governance, Risk & Compliance or Cybersecurity department?\"\n"
+        "- Yes: the report goes to Internal Audit.\n"
+        "- No: continue with the normal workflow.\n"
+        "Impact on current areas: see the 'BR-006 Impact' sheet.",
+     9: "A Yes to either question sends the report straight to Internal Audit, with no Compliance review, and "
+        "GRC-Compliance can neither see it nor receive an email about it. A No to both follows today's workflow unchanged.",
+     11: "New",
+     12: "11 impacted areas and the decisions ERC needs to make are listed on the 'BR-006 Impact' sheet."},
 ]
 for i, req in enumerate(raised):
     for col, value in req.items():
         br.cell(row=first + i, column=col, value=value)
+
+# ---------------------------------------------------------------- BR-006 Impact
+# What the escalation branch touches in today's setup. Escalated reports concern GRC or the Board,
+# so most of the rows come down to one rule: nothing about them may reach GRC-Compliance.
+im = sheet("BR-006 Impact", NAVY)
+im_headers = ["#", "Area", "Today", "Change needed", "Decision needed from ERC", "ERC answer"]
+im_widths = [5, 24, 42, 52, 46, 40]
+banner(im, "BR-006 - Impact of the escalation branch",
+       "What changes in the current setup when a report concerns the Board, GRC or Cybersecurity", len(im_headers))
+im["A4"] = ("Escalated reports concern GRC itself, so the rule behind most rows is: nothing about them may reach "
+            "GRC-Compliance - not the report, not an email, not an SLA escalation.")
+im["A4"].font = F(italic=True, color=GREY)
+impact = [
+    ("Reporting form",
+     "One request type: summary, phone number, details, attachments and the pre-filled anonymous email.",
+     "Add the two Yes/No questions (English and Arabic). Q2 shows only when Q1 is No. Both mandatory. The conditional "
+     "question needs a form on the portal.",
+     "Confirm the Arabic wording and that both questions are mandatory."),
+    ("Workflow",
+     "Open -> Compliance review -> Under Investigation -> Investigation Approved. A team rejection goes Back to Compliance.",
+     "New branch for escalated reports: Open -> Under Investigation (Internal Audit) -> Closed, or Rejected with a "
+     "reason. No path back to Compliance on this branch.",
+     "Should Internal Audit record an Investigation Outcome when closing, as on the normal branch?"),
+    ("Routing (automation)",
+     "The investigation group is set from the Report Category when the Compliance Manager approves.",
+     "New rule on submission: if either answer is Yes, assign Internal Audit at once and skip Compliance review. "
+     "Today's routing rule is unchanged for the normal branch.",
+     "-"),
+    ("Confidentiality (issue security)",
+     "GRC-Compliance can see every report. FollowUP TKT sees all reports.",
+     "Escalated reports get a new security level that GRC-Compliance cannot see (Internal Audit only).",
+     "Who else may see escalated reports (e.g. the Audit Committee)? Should FollowUP TKT still see them?"),
+    ("Notifications",
+     "Every new report emails GRC-Compliance. The reporter gets an acknowledgement.",
+     "Escalated reports email Internal Audit only; the GRC new-report rule must skip them. The reporter's "
+     "acknowledgement does not change.",
+     "-"),
+    ("SLA and escalation",
+     "Compliance decision: 2 working days. Investigation decision: 2 working days. Breaches email HO-Compliance.",
+     "The Compliance SLA does not apply. Breaches on escalated reports must not go to HO-Compliance.",
+     "Who receives SLA escalations for escalated reports? Is 2 working days right for Internal Audit's decision?"),
+    ("Classification",
+     "The Compliance Manager records the Report Category in the Compliance Approval form.",
+     "Escalated reports skip that form, so no Report Category is recorded unless Internal Audit sets it.",
+     "Should Internal Audit classify escalated reports, so they appear in the statistics by category?"),
+    ("Queues and reporting (incl. Power BI)",
+     "Queues and reports cover all reports, by category.",
+     "New queue: Escalated - Internal Audit. Reports and Power BI see escalated cases only if their account is "
+     "allowed on the new security level.",
+     "Should escalated cases appear in management reporting, and in how much detail?"),
+    ("Reports about Internal Audit",
+     "-",
+     "The two questions do not cover a report about Internal Audit itself; it would follow the normal flow to GRC.",
+     "Is that acceptable, or is a third question needed?"),
+    ("Documentation and training",
+     "User guide v1.1, workflow diagram and SLA template describe one branch.",
+     "Update the guide, the diagram and the SLA template; brief Internal Audit on the new branch.",
+     "-"),
+    ("Reports already submitted",
+     "-",
+     "No change: the questions apply to new reports only.",
+     "-"),
+]
+im.row_dimensions[5].height = 24
+for i, h in enumerate(im_headers, start=1):
+    c = im.cell(row=5, column=i, value=h)
+    c.font = F(bold=True, color="FFFFFF"); c.fill = HEAD; c.border = BOX
+    c.alignment = Alignment(vertical="center")
+    im.column_dimensions[get_column_letter(i)].width = im_widths[i - 1]
+for n, row in enumerate(impact, start=1):
+    r_ = 5 + n
+    for i, v in enumerate((n,) + row, start=1):
+        c = im.cell(row=r_, column=i, value=v)
+        c.font = F(color=INK, bold=(i == 2)); c.border = BOX; c.alignment = WRAP
+        if n % 2 == 0: c.fill = BAND
+    answer = im.cell(row=r_, column=6)
+    answer.border = BOX; answer.alignment = WRAP; answer.font = F(color=INK)
+    answer.fill = FILL_ME if row[3] != "-" else EXAMPLE
+im.freeze_panes = "C6"
 
 # ---------------------------------------------------------------- SLA
 sla = sheet("SLA", NAVY)
