@@ -310,6 +310,29 @@ for r_ in range(first, last + 1):
     br.cell(row=r_, column=1).fill = EXAMPLE
     br.cell(row=r_, column=10).number_format = "dd/mm/yyyy"
 br.cell(row=first - 1, column=10).number_format = "dd/mm/yyyy"
+# requirements ERC has already raised; justification, priority, requester and date are left for ERC
+ANONYMITY_NOTICE = ("Please note that choosing to remain anonymous may limit our ability to clarify facts "
+                    "or follow up with you during the investigation.")
+raised = [
+    {2: "Intake / Portal", 3: "Rename the portal to \"Speak Up\"",
+     4: "Rename the portal from \"Whistleblowing Reporting Portal\" to \"Speak Up\" wherever reporters or staff see it: "
+        "the help center portal name, the portal page title, the notification emails and the user guide.",
+     9: "The portal, the emails and the user guide show \"Speak Up\"; \"Whistleblowing Reporting Portal\" no longer "
+        "appears anywhere a reporter or staff member can see it.",
+     11: "New",
+     12: "Portal name and emails are configuration only. The portal link does not change, so links already "
+         "shared keep working."},
+    {2: "Intake / Portal", 3: "Anonymity notice next to the anonymous option",
+     4: "Next to the anonymity selection option on the reporting form, show this statement: \"" + ANONYMITY_NOTICE + "\"",
+     9: "Opening the reporting form shows the statement, word for word, directly next to the anonymity option, "
+        "before the reporter submits.",
+     11: "New",
+     12: "Shown as the help text of the anonymity option. Arabic text to confirm: \"يرجى العلم بأن اختيار عدم الإفصاح "
+         "عن هويتك قد يحدّ من قدرتنا على استيضاح الوقائع أو المتابعة معك أثناء التحقيق.\""},
+]
+for i, req in enumerate(raised):
+    for col, value in req.items():
+        br.cell(row=first + i, column=col, value=value)
 
 # ---------------------------------------------------------------- SLA
 sla = sheet("SLA", NAVY)
