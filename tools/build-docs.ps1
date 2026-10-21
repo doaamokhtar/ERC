@@ -16,7 +16,7 @@
 #>
 param(
     [switch]$Pdf,
-    [string]$Guide        = "WB-User-Guide-v1.1-DRAFT.docx",
+    [string]$Guide        = "WB-User-Guide-v1.2-DRAFT.docx",
     [string]$Sla          = "WB-SLA-Requirements-Template-v1.1.docx",
     [string]$Requirements = "WB-Requirements-and-SLA-Template-v1.4.xlsx"
 )

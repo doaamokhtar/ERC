@@ -61,15 +61,14 @@ const coverBand = new Table({ width: { size: CONTENT_W, type: WidthType.DXA }, c
     shading: { type: ShadingType.CLEAR, color: 'auto', fill: DARK }, borders: { top: none, bottom: none, left: none, right: none },
     margins: { top: 700, bottom: 700, left: 520, right: 520 },
     children: [
-      new Paragraph({ spacing: { after: 160 }, children: [t('●  WHISTLEBLOWING · USER GUIDE', { bold: true, color: MINT, size: 22 })] }),
-      new Paragraph({ spacing: { after: 80 }, children: [t('Whistleblowing', { bold: true, color: 'FFFFFF', size: 64 })] }),
-      new Paragraph({ spacing: { after: 240 }, children: [t('Reporting Portal', { bold: true, color: 'FFFFFF', size: 64 })] }),
+      new Paragraph({ spacing: { after: 160 }, children: [t('●  SPEAK UP · USER GUIDE', { bold: true, color: MINT, size: 22 })] }),
+      new Paragraph({ spacing: { after: 240 }, children: [t('Speak Up', { bold: true, color: 'FFFFFF', size: 72 })] }),
       new Paragraph({ spacing: { after: 320 }, children: [t('How to submit, review and investigate reports in Jira Service Management', { color: 'CFE3DB', size: 26 })] }),
       new Paragraph({ children: [t('  DRAFT · SANDBOX  ', { bold: true, color: DARK, size: 20, shading: { type: ShadingType.CLEAR, color: 'auto', fill: MINT } })] }),
     ] })] })] });
 
 const meta = table(['Item', 'Detail'], [
-  ['Document', 'Whistleblowing Reporting Portal – User Guide'], ['Version', '1.1 (draft)'], ['Date', '19 October 2026'],
+  ['Document', 'Speak Up – User Guide'], ['Version', '1.2 (draft)'], ['Date', '21 October 2026'],
   ['Prepared by', 'Doaa Mokhtar'], ['Client', 'Expo 2030 Riyadh Company (ERC)'],
   ['Environment', 'Sandbox (erc-sd-sandbox.atlassian.net)'], ['Status', 'Draft – to be updated with live ERC data before release'],
 ], [2600, CONTENT_W - 2600]);
@@ -90,7 +89,7 @@ const body = [
   new Paragraph({ children: [new PageBreak()] }),
 
   h1('1. About the portal'),
-  p('The Whistleblowing Reporting Portal lets anyone report misconduct at ERC without signing in and without giving their name. Every report is classified first by the Compliance Manager, then investigated by the team responsible for that type of concern.'),
+  p('The Speak Up portal lets anyone report misconduct at ERC without signing in and without giving their name. Every report is classified first by the Compliance Manager, then investigated by the team responsible for that type of concern.'),
   bullet([b('Anonymous by default. '), t('The email field is pre-filled with Anonymous@Anonymous.com. Leave it as it is to stay anonymous.')]),
   bullet([b('Confidential. '), t('Only the Compliance team and the team assigned to investigate can see a report. Other staff, and other investigation teams, cannot.')]),
   bullet([b('Optional contact. '), t('A reporter who wants to be contacted can leave a phone number; nothing else identifies them.')]),
@@ -194,7 +193,7 @@ const body = [
 const header = new Header({ children: [
   new Paragraph({ border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: MINT, space: 6 } }, tabStops: [{ type: 'right', position: CONTENT_W }],
     children: [new ImageRun({ type: 'png', data: img('erc-icon.png'), transformation: { width: 36, height: 32 }, altText: { title: 'ERC', description: 'ERC icon', name: 'icon' } }),
-               t('\tWhistleblowing Reporting Portal – User Guide  ', { size: 16, color: GREY }),
+               t('\tSpeak Up – User Guide  ', { size: 16, color: GREY }),
                t('|  DRAFT', { size: 16, bold: true, color: GREEN })] }),
 ] });
 const footer = new Footer({ children: [ new Paragraph({ alignment: AlignmentType.CENTER,
@@ -210,7 +209,7 @@ const numbering = { config: [
 ] };
 
 const doc = new Document({
-  creator: 'Doaa Mokhtar', title: 'Whistleblowing Reporting Portal – User Guide v1.1 (Draft)', description: 'Draft user guide based on the sandbox environment',
+  creator: 'Doaa Mokhtar', title: 'Speak Up – User Guide v1.2 (Draft)', description: 'Draft user guide based on the sandbox environment',
   styles: { default: { document: { run: { font: FONT, size: 21, color: INK } } },
     paragraphStyles: [{ id: 'Heading1', name: 'Heading 1', basedOn: 'Normal', next: 'Normal', quickFormat: true, run: { font: FONT, size: 32, bold: true, color: DARK }, paragraph: { outlineLevel: 0 } }] },
   numbering, features: { updateFields: true },

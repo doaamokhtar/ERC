@@ -55,7 +55,7 @@ and `Pillow`).
 
 | Output in `docs/` | Built by |
 |---|---|
-| `WB-User-Guide-v1.1-DRAFT.docx` | `build.js` |
+| `WB-User-Guide-v1.2-DRAFT.docx` | `build.js` |
 | `WB-SLA-Requirements-Template-v1.1.docx` | `sla-template.js` |
 | `WB-Requirements-and-SLA-Template-v1.4.xlsx` | `requirements-template.py` |
 

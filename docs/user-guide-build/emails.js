@@ -24,14 +24,14 @@ ${rows.map(([k, v, strong], i) => `<tr><td style="padding:12px 16px;color:${MUTE
 <tr><td style="padding:0 30px;"><div style="border-top:1px solid ${LINE};margin:14px 0;"></div></td></tr>
 <tr><td style="padding:0 30px 20px 30px;color:${INK};font-size:15px;line-height:1.8;text-align:right;" dir="rtl">${ar}</td></tr>
 <tr><td style="background:${DARK};padding:14px 30px;color:#CFE3DB;font-size:12px;line-height:1.6;text-align:center;">
-<span style="color:${MINT};font-weight:bold;">EXPO 2030 RIYADH</span> &middot; Whistleblowing Reporting Portal<br>
+<span style="color:${MINT};font-weight:bold;">EXPO 2030 RIYADH</span> &middot; Speak Up<br>
 For confidentiality, report details are available in Jira only. This is an automated message.<br>
 <span dir="rtl">حفاظًا على السرية، تفاصيل البلاغ متاحة داخل Jira فقط. هذه رسالة آلية.</span>
 </td></tr>
 </table></td></tr></table>`;
 
 exports.newReport = () => shell({
-  eyebrow: 'WHISTLEBLOWING REPORTING PORTAL', title: 'New report waiting for review',
+  eyebrow: 'SPEAK UP', title: 'New report waiting for review',
   intro: '<p style="margin:0 0 12px 0;">Dear Compliance team,</p><p style="margin:0;">A new report has been submitted. Please complete the <b>Compliance Approval</b> form and approve or reject it within 2 working days.</p>',
   rows: [['Reference', '{{issue.key}}', true], ['Status', '{{issue.status.name}}']],
   button: 'Open the report &nbsp;|&nbsp; فتح البلاغ',
@@ -40,7 +40,7 @@ exports.newReport = () => shell({
 });
 
 exports.assigned = () => shell({
-  eyebrow: 'WHISTLEBLOWING REPORTING PORTAL', title: 'New report assigned to your team',
+  eyebrow: 'SPEAK UP', title: 'New report assigned to your team',
   intro: '<p style="margin:0 0 12px 0;">Dear team,</p><p style="margin:0;">The Compliance Manager has approved a report and assigned it to your team for investigation.</p>',
   rows: [['Reference', '{{issue.key}}', true], ['Investigating function', '{{issue.customfield_12000.value}}']],
   button: 'Open the report &nbsp;|&nbsp; فتح البلاغ',
@@ -49,7 +49,7 @@ exports.assigned = () => shell({
 });
 
 exports.escalation = (stage, owner) => shell({
-  eyebrow: 'WHISTLEBLOWING REPORTING PORTAL &middot; ESCALATION', title: `SLA breached: ${stage}`, alert: true,
+  eyebrow: 'SPEAK UP &middot; ESCALATION', title: `SLA breached: ${stage}`, alert: true,
   intro: `<p style="margin:0 0 12px 0;">Dear Head of Compliance,</p><p style="margin:0;">A report has passed its 2-working-day target at the <b>${stage}</b> stage and needs your attention.</p>`,
   rows: [['Reference', '{{issue.key}}', true], ['Current status', '{{issue.status.name}}'], ['Waiting on', owner]],
   button: 'Open the report &nbsp;|&nbsp; فتح البلاغ',

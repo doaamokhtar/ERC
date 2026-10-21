@@ -66,7 +66,7 @@ const coverBand = new Table({ width: { size: CONTENT_W, type: WidthType.DXA }, c
       new Paragraph({ spacing: { after: 160 }, children: [t('●  SERVICE DESK · REQUIREMENTS TEMPLATE', { bold: true, color: MINT, size: 22 })] }),
       new Paragraph({ spacing: { after: 80 }, children: [t('Service Level (SLA)', { bold: true, color: 'FFFFFF', size: 60 })] }),
       new Paragraph({ spacing: { after: 240 }, children: [t('Requirements', { bold: true, color: 'FFFFFF', size: 60 })] }),
-      new Paragraph({ spacing: { after: 320 }, children: [t('Whistleblowing Reporting Portal – targets, levels and escalation, to be completed by ERC', { color: 'CFE3DB', size: 26 })] }),
+      new Paragraph({ spacing: { after: 320 }, children: [t('Speak Up – targets, levels and escalation, to be completed by ERC', { color: 'CFE3DB', size: 26 })] }),
       new Paragraph({ children: [t('  TO BE COMPLETED BY THE CUSTOMER  ', { bold: true, color: NAVY, size: 20, shading: { type: ShadingType.CLEAR, color: 'auto', fill: MINT } })] }),
     ] })] })] });
 
@@ -74,7 +74,7 @@ const cover = [
   new Paragraph({ spacing: { after: 600 }, children: [new ImageRun({ type: 'png', data: img('expo-logo.png'), transformation: { width: 280, height: 110 }, altText: { title: 'Expo 2030 Riyadh', description: 'Expo 2030 Riyadh logo', name: 'logo' } })] }),
   coverBand, spacer(480),
   table(['Item', 'Detail'], [
-    ['Customer', 'Expo 2030 Riyadh Company (ERC)'], ['Service', 'Whistleblowing Reporting Portal (Jira Service Management)'],
+    ['Customer', 'Expo 2030 Riyadh Company (ERC)'], ['Service', 'Speak Up (Jira Service Management)'],
     ['Template version', '1.0'], ['Prepared by', 'Doaa Mokhtar'],
     ['Completed by (name, role)', F], ['Date completed', F], ['Approved by (name, role)', F],
   ], [3000, CONTENT_W - 3000]),
@@ -181,13 +181,13 @@ const body = [
 // ---------- header / footer ----------
 const header = new Header({ children: [ new Paragraph({ border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: MINT, space: 6 } }, tabStops: [{ type: 'right', position: CONTENT_W }],
   children: [new ImageRun({ type: 'png', data: img('erc-icon.png'), transformation: { width: 36, height: 32 }, altText: { title: 'ERC', description: 'ERC icon', name: 'icon' } }),
-             t('\tWhistleblowing Reporting Portal – SLA Requirements Template', { size: 16, color: GREY })] }) ] });
+             t('\tSpeak Up – SLA Requirements Template', { size: 16, color: GREY })] }) ] });
 const footer = new Footer({ children: [ new Paragraph({ alignment: AlignmentType.CENTER,
   children: [t('Page ', { size: 16, color: GREY }), new TextRun({ children: [PageNumber.CURRENT], font: FONT, size: 16, color: GREY }),
              t(' of ', { size: 16, color: GREY }), new TextRun({ children: [PageNumber.TOTAL_PAGES], font: FONT, size: 16, color: GREY })] }) ] });
 
 const doc = new Document({
-  creator: 'Doaa Mokhtar', title: 'Whistleblowing Reporting Portal – SLA Requirements Template',
+  creator: 'Doaa Mokhtar', title: 'Speak Up – SLA Requirements Template',
   styles: { default: { document: { run: { font: FONT, size: 20, color: INK } } },
     paragraphStyles: [{ id: 'Heading1', name: 'Heading 1', basedOn: 'Normal', next: 'Normal', quickFormat: true, run: { font: FONT, size: 30, bold: true, color: NAVY }, paragraph: { outlineLevel: 0 } }] },
   numbering: { config: [{ reference: 'bullets', levels: [{ level: 0, format: LevelFormat.BULLET, text: '•', alignment: AlignmentType.LEFT, style: { run: { color: MINT_DARK }, paragraph: { indent: { left: 540, hanging: 270 } } } }] }] },
