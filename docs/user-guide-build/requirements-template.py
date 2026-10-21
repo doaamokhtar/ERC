@@ -35,7 +35,7 @@ lists = {
     "Area": ["Intake / Portal", "Classification", "Routing", "Investigation", "Notifications",
              "SLA & Escalation", "Reporting", "Security & Access", "Data & Retention", "Other"],
     "Priority": ["Must have", "Should have", "Could have", "Won't have (now)"],
-    "ReqStatus": ["New", "In review", "Approved", "Rejected", "Implemented"],
+    "ReqStatus": ["New", "In review", "Approved", "Rejected", "Done in sandbox", "Implemented"],
     "ReportCategory": ["All categories",
                        "Fraud, Theft, Embezzlement or Asset Misappropriation",
                        "Bribery, Corruption, Kickbacks or Trading in Influence",
@@ -306,7 +306,7 @@ first, last = table(br, 5, br_headers, br_widths,
           "showErrorMessage": True, "error": "Enter a date (dd/mm/yyyy)."}},
     notes={"Priority": "Must have = go-live blocker. Should have = important, can follow shortly after. Could have = nice to have.",
            "Acceptance criteria": "Describe the test that proves the requirement is met.",
-           "Status": "Filled in jointly with Ejada during review."})
+           "Status": "Filled in jointly with Ejada during review. Done in sandbox = built and checked in the sandbox, not yet in production. Implemented = live in production."})
 for r_ in range(first, last + 1):
     br.cell(row=r_, column=1, value=f'=IF(C{r_}="","","BR-"&TEXT(ROW()-{first - 2},"000"))').font = F(color=GREY)
     br.cell(row=r_, column=1).fill = EXAMPLE
@@ -339,7 +339,7 @@ raised = [
         "the help center portal name, the portal page title, the notification emails and the user guide.",
      9: "The portal, the emails and the user guide show \"Speak Up\"; \"Whistleblowing Reporting Portal\" no longer "
         "appears anywhere a reporter or staff member can see it.",
-     11: "New",
+     11: "Done in sandbox",
      12: "Sandbox, 21/10/2026: done - project, portal and help center renamed, emails and user guide (v1.2) "
          "updated. The help center address changed with it, from /helpcenter/WhistleblowingReporting to "
          "/helpcenter/SpeakUp: the old link no longer opens the form, so every published link (intranet, emails, "
