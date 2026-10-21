@@ -57,7 +57,7 @@ and `Pillow`).
 |---|---|
 | `WB-User-Guide-v1.1-DRAFT.docx` | `build.js` |
 | `WB-SLA-Requirements-Template-v1.1.docx` | `sla-template.js` |
-| `WB-Requirements-and-SLA-Template-v1.3.xlsx` | `requirements-template.py` |
+| `WB-Requirements-and-SLA-Template-v1.4.xlsx` | `requirements-template.py` |
 
 `emails.js` holds the HTML of the WB automation emails, in the same Expo 2030 Riyadh theme.
 

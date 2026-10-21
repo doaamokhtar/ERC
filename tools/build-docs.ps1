@@ -18,7 +18,7 @@ param(
     [switch]$Pdf,
     [string]$Guide        = "WB-User-Guide-v1.1-DRAFT.docx",
     [string]$Sla          = "WB-SLA-Requirements-Template-v1.1.docx",
-    [string]$Requirements = "WB-Requirements-and-SLA-Template-v1.3.xlsx"
+    [string]$Requirements = "WB-Requirements-and-SLA-Template-v1.4.xlsx"
 )
 $ErrorActionPreference = "Stop"
 $docsDir  = Resolve-Path "$PSScriptRoot\..\docs"

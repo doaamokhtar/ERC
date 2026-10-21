@@ -192,7 +192,7 @@ r += 1
 ins.cell(row=r, column=2, value="Document details").font = F(size=12, bold=True, color=NAVY); r += 1
 details_start = r
 for k, v in [("Customer", "Expo 2030 Riyadh Company (ERC)"), ("Service", "Whistleblowing Reporting Portal (Jira Service Management)"),
-             ("Template version", "1.2"), ("Prepared by (Ejada)", "Doaa Mokhtar"),
+             ("Template version", "1.4"), ("Prepared by (Ejada)", "Doaa Mokhtar"),
              ("Completed by (name, role)", None), ("Date completed", None), ("Approved by (name, role)", None)]:
     a = ins.cell(row=r, column=2, value=k); a.font = F(bold=True); a.border = BOX
     b = ins.cell(row=r, column=3, value=v); b.font = F(); b.border = BOX
