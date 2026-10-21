@@ -182,6 +182,7 @@ for k, v in [("Service Catalog", "One row per service on the portal: who can req
              ("Request Form Fields", "One row per field on a service's request form: label (English and Arabic), type, required or not, dropdown options."),
              ("Other Requirements", "Anything that is not a service or a field: notifications, reports, access rules, data retention."),
              ("BR-006 Impact", "What the escalation branch (BR-006) changes in today's setup, and the decisions needed - answer in the yellow 'ERC answer' cells."),
+             ("BR-007 Impact", "The same for the five new investigation functions (BR-007)."),
              ("SLA", "One row per service level: what is measured, the target, and who is warned and escalated to (group + email) at each level."),
              ("Groups & Contacts", "Who belongs to each group, their email, and whether they need a Jira licence.")]:
     a = ins.cell(row=r, column=2, value=k); a.font = F(bold=True); a.border = BOX
@@ -331,6 +332,7 @@ REPORTABLE_MATTERS = "\n".join([
     "Retaliation against a whistleblower, witness or any person assisting a case, or any attempt to obstruct or "
     "interfere with a case.",
 ])
+NEW_FUNCTIONS = ["Legal", "Procurement", "Finance", "Cybersecurity", "ARC Chairman"]
 raised = [
     {2: "Intake / Portal", 3: "Rename the portal to \"Speak Up\"",
      4: "Rename the portal from \"Whistleblowing Reporting Portal\" to \"Speak Up\" wherever reporters or staff see it: "
@@ -375,6 +377,17 @@ raised = [
         "GRC-Compliance can neither see it nor receive an email about it. A No to both follows today's workflow unchanged.",
      11: "New",
      12: "11 impacted areas and the decisions ERC needs to make are listed on the 'BR-006 Impact' sheet."},
+    {2: "Routing", 3: "Five more investigation functions under Report Category \"Other\"",
+     4: "When the Report Category is \"Other\", the Compliance Manager chooses the Investigating Function. "
+        "Add these functions, each with its own investigation group:\n" + "\n".join(
+            f"{n}. {name}" for n, name in enumerate(NEW_FUNCTIONS, start=1)) + "\n"
+        "This affects the investigation group, the assignee and the user groups. "
+        "Impact on current areas: see the 'BR-007 Impact' sheet.",
+     9: "Choosing each new function on a test report routes it to that function's group only: its members get the "
+        "assignment email, can be assigned and can see the report; no other investigation group can.",
+     11: "New",
+     12: "Groups added to the 'Groups & Contacts' sheet for ERC to fill in the members. Decisions needed are on "
+         "the 'BR-007 Impact' sheet."},
 ]
 for i, req in enumerate(raised):
     for col, value in req.items():
@@ -383,15 +396,36 @@ for i, req in enumerate(raised):
 # ---------------------------------------------------------------- BR-006 Impact
 # What the escalation branch touches in today's setup. Escalated reports concern GRC or the Board,
 # so most of the rows come down to one rule: nothing about them may reach GRC-Compliance.
-im = sheet("BR-006 Impact", NAVY)
-im_headers = ["#", "Area", "Today", "Change needed", "Decision needed from ERC", "ERC answer"]
-im_widths = [5, 24, 42, 52, 46, 40]
-banner(im, "BR-006 - Impact of the escalation branch",
-       "What changes in the current setup when a report concerns the Board, GRC or Cybersecurity", len(im_headers))
-im["A4"] = ("Escalated reports concern GRC itself, so the rule behind most rows is: nothing about them may reach "
-            "GRC-Compliance - not the report, not an email, not an SLA escalation.")
-im["A4"].font = F(italic=True, color=GREY)
-impact = [
+def impact_sheet(name, title, subtitle, note, rows):
+    """One row per area of today's setup: what it is, what changes, what ERC must decide, and ERC's answer.
+    A row may carry a fifth item - an answer already agreed - which is shown instead of a yellow cell."""
+    im = sheet(name, NAVY)
+    headers = ["#", "Area", "Today", "Change needed", "Decision needed from ERC", "ERC answer"]
+    widths = [5, 24, 42, 52, 46, 40]
+    banner(im, title, subtitle, len(headers))
+    im["A4"] = note
+    im["A4"].font = F(italic=True, color=GREY)
+    im.row_dimensions[5].height = 24
+    for i, h in enumerate(headers, start=1):
+        c = im.cell(row=5, column=i, value=h)
+        c.font = F(bold=True, color="FFFFFF"); c.fill = HEAD; c.border = BOX
+        c.alignment = Alignment(vertical="center")
+        im.column_dimensions[get_column_letter(i)].width = widths[i - 1]
+    for n, row in enumerate(rows, start=1):
+        r_ = 5 + n
+        for i, v in enumerate((n,) + row[:4], start=1):
+            c = im.cell(row=r_, column=i, value=v)
+            c.font = F(color=INK, bold=(i == 2)); c.border = BOX; c.alignment = WRAP
+            if n % 2 == 0: c.fill = BAND
+        agreed = row[4] if len(row) > 4 else None
+        answer = im.cell(row=r_, column=6, value=agreed)
+        answer.border = BOX; answer.alignment = WRAP
+        answer.font = F(color=MINT_DARK, bold=True) if agreed else F(color=INK)
+        answer.fill = BAND if agreed else (FILL_ME if row[3] != "-" else EXAMPLE)
+    im.freeze_panes = "C6"
+
+
+impact_006 = [
     ("Reporting form",
      "One request type: summary, phone number, details, attachments and the pre-filled anonymous email.",
      "Add the two Yes/No questions (English and Arabic). Q2 shows only when Q1 is No. Both mandatory. The conditional "
@@ -444,24 +478,72 @@ impact = [
      "No change: the questions apply to new reports only.",
      "-"),
 ]
-im.row_dimensions[5].height = 24
-for i, h in enumerate(im_headers, start=1):
-    c = im.cell(row=5, column=i, value=h)
-    c.font = F(bold=True, color="FFFFFF"); c.fill = HEAD; c.border = BOX
-    c.alignment = Alignment(vertical="center")
-    im.column_dimensions[get_column_letter(i)].width = im_widths[i - 1]
-for n, row in enumerate(impact, start=1):
-    r_ = 5 + n
-    for i, v in enumerate((n,) + row[:4], start=1):
-        c = im.cell(row=r_, column=i, value=v)
-        c.font = F(color=INK, bold=(i == 2)); c.border = BOX; c.alignment = WRAP
-        if n % 2 == 0: c.fill = BAND
-    agreed = row[4] if len(row) > 4 else None          # decisions already taken
-    answer = im.cell(row=r_, column=6, value=agreed)
-    answer.border = BOX; answer.alignment = WRAP
-    answer.font = F(color=MINT_DARK, bold=True) if agreed else F(color=INK)
-    answer.fill = BAND if agreed else (FILL_ME if row[3] != "-" else EXAMPLE)
-im.freeze_panes = "C6"
+impact_sheet("BR-006 Impact", "BR-006 - Impact of the escalation branch",
+             "What changes in the current setup when a report concerns the Board, GRC or Cybersecurity",
+             "Escalated reports concern GRC itself, so the rule behind most rows is: nothing about them may reach "
+             "GRC-Compliance - not the report, not an email, not an SLA escalation.", impact_006)
+
+# ---------------------------------------------------------------- BR-007 Impact
+# Access to a report follows its Investigation Group field (security level and assignable-user permission),
+# so a new function mostly means a new group, a routing entry and licensed members.
+impact_007 = [
+    ("Investigating Function (form question)",
+     "Shown when the Report Category is Other. Options: Internal Audit, Human Resources, Health and Safety "
+     "representative, Information Security, GRC-Compliance Manager.",
+     "Add the five options to the Compliance Approval form and to the Investigating Function field: "
+     + ", ".join(NEW_FUNCTIONS) + ".",
+     "Confirm the Arabic labels for the five options."),
+    ("Investigation Group",
+     "Set automatically from the Investigating Function when the Compliance Manager submits the form; "
+     "one group per function.",
+     "Five new Jira groups, and the five function-to-group pairs added to the routing rule.",
+     "Group names. Jira groups are shared across ERC's whole Atlassian organisation: a generic name such as "
+     "\"Finance\" may already exist with all finance staff in it, and every one of them would see these reports. "
+     "Dedicated names (e.g. \"WB-Finance\") are safer."),
+    ("Group members",
+     "-",
+     "One row per new group added to the 'Groups & Contacts' sheet.",
+     "Members and emails for each group."),
+    ("Assignee",
+     "Members of GRC-Compliance and of the report's Investigation Group can be assigned.",
+     "No permission change: members of a new group can be assigned as soon as a report is routed to it.",
+     "Who in each group should be assigned first, if anyone (default assignee)?"),
+    ("Confidentiality (issue security)",
+     "A report is visible to GRC-Compliance and to its Investigation Group only.",
+     "No change to the security level: each new group sees only the reports routed to it.",
+     "-"),
+    ("Licences and sign-in",
+     "Every investigator needs a Jira Service Management agent licence and must be assigned to the "
+     "\"Jira - SSO\" enterprise app in Entra ID.",
+     "Members of the five groups need agent licences and the SSO assignment before go-live.",
+     "Are enough agent licences available for the new members?"),
+    ("ARC Chairman",
+     "-",
+     "A single person, possibly outside ERC's staff directory. As an investigation function they would need a "
+     "Jira account, a licence, and would see the full report in Jira.",
+     "Should the ARC Chairman work in Jira, or receive these cases another way (e.g. through Internal Audit)?"),
+    ("Cybersecurity and Information Security",
+     "Information Security investigates information security and data protection reports.",
+     "Cybersecurity is added as a separate function. Under BR-006, a report about the Cybersecurity department "
+     "goes to Internal Audit, so Cybersecurity never investigates a report about itself.",
+     "Is Cybersecurity a different team from Information Security, or the same group?"),
+    ("Notifications",
+     "The assignment email goes to the report's Investigation Group.",
+     "Works for the new groups once they are in the routing rule.",
+     "-"),
+    ("SLA and escalation",
+     "Investigation decision: 2 working days, for every investigation group.",
+     "Applies to the new groups automatically.",
+     "-"),
+    ("Documentation and reporting",
+     "The user guide lists the groups and the category-to-function table. Power BI breaks reports down by group.",
+     "Update the guide's tables; the new functions appear in reporting once used.",
+     "-"),
+]
+impact_sheet("BR-007 Impact", "BR-007 - Impact of the five new investigation functions",
+             "What changes when Legal, Procurement, Finance, Cybersecurity and ARC Chairman can investigate",
+             "Access to a report follows its Investigation Group, so each new function needs a group, a routing entry "
+             "and licensed members - nothing else in the workflow changes.", impact_007)
 
 # ---------------------------------------------------------------- SLA
 sla = sheet("SLA", NAVY)
@@ -528,7 +610,8 @@ groups = [("GRC-Compliance", "Compliance Manager: classifies new reports, approv
           ("Health and Safety Representative", "Investigates health, safety, environmental and heritage reports"),
           ("Information Security", "Investigates information security and data protection reports"),
           ("HO-Compliance", "Head of Compliance: receives SLA escalations"),
-          ("FollowUP TKT", "Oversight: sees all reports")]
+          ("FollowUP TKT", "Oversight: sees all reports")] + [
+          (f, f"Investigates reports routed to {f} (Report Category Other) - new, BR-007") for f in NEW_FUNCTIONS]
 gl = len(lists) + 1
 ls.cell(row=1, column=gl, value="GroupNames").font = F(bold=True)
 for i, (g, _) in enumerate(groups, start=2):
