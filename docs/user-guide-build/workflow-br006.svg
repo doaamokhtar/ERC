@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 730" width="2200" height="1460" font-family="Segoe UI, Tahoma, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5E716B"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#B23A2E"/></marker>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#228848"/></marker>
+  </defs>
+  <rect width="1100" height="730" fill="#FFFFFF"/>
+  <text x="24" y="30" font-size="19" font-weight="700" fill="#024638">Speak Up report flow, with the BR-006 escalation branch</text>
+  <text x="24" y="50" font-size="13" fill="#5E716B">Q1 is mandatory on every report · Q2 appears, and is mandatory, only when Q1 = No · the new part is framed</text>
+
+  <!-- ===================== NEW: Internal Audit branch (framed) ===================== -->
+  <rect x="200" y="78" width="880" height="222" rx="14" fill="#F3FAF6" stroke="#36B78E" stroke-width="2" stroke-dasharray="8 5"/>
+  <rect x="200" y="66" width="150" height="24" rx="12" fill="#36B78E"/>
+  <text x="275" y="83" text-anchor="middle" font-size="12.5" font-weight="700" fill="#FFFFFF">NEW · BR-006</text>
+
+  <g>
+    <rect x="260" y="148" width="200" height="104" rx="10" fill="#FFFFFF" stroke="#024638" stroke-width="1.5"/>
+    <text x="360" y="174" text-anchor="middle" font-size="15" font-weight="700" fill="#024638">Internal Audit</text>
+    <text x="360" y="193" text-anchor="middle" font-size="15" font-weight="700" fill="#024638">investigation</text>
+    <text x="360" y="213" text-anchor="middle" font-size="12" fill="#1D2B27">Assigned to Internal Audit only</text>
+    <text x="360" y="229" text-anchor="middle" font-size="12" fill="#5E716B">no other team assigned</text>
+    <text x="360" y="244" text-anchor="middle" font-size="12" fill="#5E716B">no Compliance review</text>
+  </g>
+  <g>
+    <rect x="540" y="96" width="250" height="92" rx="10" fill="#FFFFFF" stroke="#228848" stroke-width="1.5"/>
+    <text x="665" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#228848">Approve screen (form)</text>
+    <text x="665" y="138" text-anchor="middle" font-size="12" fill="#1D2B27">Report Category: "Other" only</text>
+    <text x="665" y="155" text-anchor="middle" font-size="12" fill="#1D2B27">Function: who the report concerns</text>
+    <text x="665" y="172" text-anchor="middle" font-size="11.5" fill="#5E716B">for the record - Internal Audit keeps the case</text>
+  </g>
+  <g>
+    <rect x="540" y="206" width="250" height="70" rx="10" fill="#FFFFFF" stroke="#B23A2E" stroke-width="1.5"/>
+    <text x="665" y="232" text-anchor="middle" font-size="14" font-weight="700" fill="#B23A2E">Rejection screen</text>
+    <text x="665" y="253" text-anchor="middle" font-size="12" fill="#1D2B27">Rejection Reason - mandatory</text>
+  </g>
+  <g>
+    <rect x="870" y="112" width="190" height="60" rx="10" fill="#228848"/>
+    <text x="965" y="138" text-anchor="middle" font-size="14.5" font-weight="700" fill="#FFFFFF">Investigation</text>
+    <text x="965" y="157" text-anchor="middle" font-size="14.5" font-weight="700" fill="#FFFFFF">Approved</text>
+  </g>
+  <g>
+    <rect x="870" y="216" width="190" height="50" rx="10" fill="#FBEDEB" stroke="#B23A2E" stroke-width="1.5"/>
+    <text x="965" y="246" text-anchor="middle" font-size="14.5" font-weight="700" fill="#B23A2E">Rejected</text>
+  </g>
+  <g fill="none" stroke-width="1.6">
+    <path d="M460 182H500V142H538" stroke="#228848" marker-end="url(#m)"/>
+    <path d="M790 142H868" stroke="#228848" marker-end="url(#m)"/>
+    <path d="M460 222H500V241H538" stroke="#B23A2E" marker-end="url(#r)"/>
+    <path d="M790 241H868" stroke="#B23A2E" marker-end="url(#r)"/>
+  </g>
+  <g font-size="12" font-weight="600">
+    <text x="470" y="134" fill="#228848">Approve</text>
+    <text x="470" y="266" fill="#B23A2E">Reject</text>
+  </g>
+
+  <!-- ===================== Intake: report + the two questions ===================== -->
+  <g>
+    <rect x="30" y="70" width="160" height="56" rx="10" fill="#EEF7F3" stroke="#36B78E" stroke-width="1.5"/>
+    <text x="110" y="94" text-anchor="middle" font-size="14" font-weight="700" fill="#024638">Report submitted</text>
+    <text x="110" y="113" text-anchor="middle" font-size="12" fill="#5E716B">Portal, anonymous</text>
+  </g>
+  <g>
+    <polygon points="110,156 182,200 110,244 38,200" fill="#FFFFFF" stroke="#024638" stroke-width="1.5"/>
+    <text x="110" y="192" text-anchor="middle" font-size="12" font-weight="700" fill="#024638">Q1 · Board of</text>
+    <text x="110" y="208" text-anchor="middle" font-size="12" font-weight="700" fill="#024638">Directors?</text>
+    <text x="110" y="223" text-anchor="middle" font-size="10.5" fill="#5E716B">mandatory</text>
+  </g>
+  <g>
+    <polygon points="110,298 182,342 110,386 38,342" fill="#FFFFFF" stroke="#024638" stroke-width="1.5"/>
+    <text x="110" y="334" text-anchor="middle" font-size="12" font-weight="700" fill="#024638">Q2 · GRC or</text>
+    <text x="110" y="350" text-anchor="middle" font-size="12" font-weight="700" fill="#024638">Cybersecurity?</text>
+    <text x="110" y="363" text-anchor="middle" font-size="10" fill="#5E716B">if Q1 = No</text>
+  </g>
+  <g fill="none" stroke-width="1.6">
+    <path d="M110 126V154" stroke="#5E716B" marker-end="url(#a)"/>
+    <path d="M182 200H258" stroke="#228848" marker-end="url(#m)"/>
+    <path d="M110 244V296" stroke="#5E716B" marker-end="url(#a)"/>
+    <path d="M182 342H226V238H258" stroke="#228848" stroke-dasharray="6 4" marker-end="url(#m)"/>
+    <path d="M110 386V475H228" stroke="#5E716B" marker-end="url(#a)"/>
+  </g>
+  <g font-size="12" font-weight="700">
+    <text x="214" y="193" fill="#228848">Yes</text>
+    <text x="118" y="275" fill="#5E716B">No</text>
+    <text x="232" y="330" fill="#228848">Yes</text>
+    <text x="232" y="345" font-size="10.5" font-weight="400" fill="#5E716B">same branch?</text>
+    <text x="232" y="358" font-size="10.5" font-weight="400" fill="#5E716B">(to confirm)</text>
+    <text x="118" y="430" fill="#5E716B">No</text>
+  </g>
+
+  <!-- ===================== Existing flow (unchanged) ===================== -->
+  <g fill="none" stroke="#5E716B" stroke-width="1.6">
+    <path d="M420 475H478" marker-end="url(#a)"/>
+    <path d="M670 475H818" marker-end="url(#a)"/>
+    <path d="M325 510V588" marker-end="url(#a)"/>
+    <path d="M575 510V620H698" marker-end="url(#a)"/>
+    <path d="M860 585V512" marker-end="url(#a)"/>
+  </g>
+  <g fill="none" stroke="#B23A2E" stroke-width="1.6" stroke-dasharray="6 4">
+    <path d="M575 440V420H325V438" marker-end="url(#r)"/>
+    <path d="M795 655V690H212V495H228" marker-end="url(#r)"/>
+  </g>
+  <g>
+    <rect x="230" y="440" width="190" height="70" rx="10" fill="#FFFFFF" stroke="#024638" stroke-width="1.5"/>
+    <text x="325" y="466" text-anchor="middle" font-size="14.5" font-weight="700" fill="#024638">Compliance review</text>
+    <text x="325" y="485" text-anchor="middle" font-size="12" fill="#1D2B27">Form: Report Category</text>
+    <text x="325" y="501" text-anchor="middle" font-size="12" fill="#5E716B">GRC-Compliance</text>
+  </g>
+  <g>
+    <rect x="480" y="440" width="190" height="70" rx="10" fill="#FFFFFF" stroke="#024638" stroke-width="1.5"/>
+    <text x="575" y="466" text-anchor="middle" font-size="14.5" font-weight="700" fill="#024638">Under Investigation</text>
+    <text x="575" y="485" text-anchor="middle" font-size="12" fill="#1D2B27">Routed by category</text>
+    <text x="575" y="501" text-anchor="middle" font-size="12" fill="#5E716B">Assigned team</text>
+  </g>
+  <g>
+    <rect x="820" y="440" width="190" height="70" rx="10" fill="#228848"/>
+    <text x="915" y="471" text-anchor="middle" font-size="14.5" font-weight="700" fill="#FFFFFF">Investigation</text>
+    <text x="915" y="490" text-anchor="middle" font-size="14.5" font-weight="700" fill="#FFFFFF">Approved</text>
+  </g>
+  <g>
+    <rect x="230" y="590" width="190" height="52" rx="10" fill="#FBEDEB" stroke="#B23A2E" stroke-width="1.5"/>
+    <text x="325" y="613" text-anchor="middle" font-size="13.5" font-weight="700" fill="#B23A2E">Rejected by Compliance</text>
+    <text x="325" y="631" text-anchor="middle" font-size="11.5" fill="#5E716B">closed, with a reason</text>
+  </g>
+  <g>
+    <rect x="700" y="585" width="190" height="70" rx="10" fill="#FFFFFF" stroke="#36B78E" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <text x="795" y="609" text-anchor="middle" font-size="13.5" font-weight="700" fill="#024638">Pending Employee</text>
+    <text x="795" y="626" text-anchor="middle" font-size="13.5" font-weight="700" fill="#024638">Relations Approval</text>
+    <text x="795" y="645" text-anchor="middle" font-size="11.5" fill="#5E716B">Retaliation only</text>
+  </g>
+  <g font-size="12" font-weight="600" fill="#228848">
+    <text x="449" y="466" text-anchor="middle">Approve</text>
+    <text x="744" y="466" text-anchor="middle">Approve</text>
+    <text x="744" y="492" text-anchor="middle" font-weight="400" fill="#5E716B">+ Outcome</text>
+    <text x="583" y="548">HR approves</text>
+    <text x="583" y="563" font-weight="400" fill="#5E716B">(Retaliation)</text>
+    <text x="868" y="552">ER approves</text>
+  </g>
+  <g font-size="12" font-weight="600" fill="#B23A2E">
+    <text x="335" y="555">Reject + reason</text>
+    <text x="450" y="413" text-anchor="middle">Team rejects + reason: Back to Compliance</text>
+    <text x="500" y="707" text-anchor="middle">ER rejects + reason: Back to Compliance</text>
+  </g>
+  <text x="1070" y="722" text-anchor="end" font-size="11" font-weight="700" letter-spacing="1" fill="#5E716B">EXISTING FLOW · UNCHANGED</text>
+</svg>
